@@ -1,0 +1,82 @@
+{
+  "home": {
+    "hero": {
+      "title": "DRIPT.",
+      "subtitle": "\n",
+      "description": "\n",
+      "background": "/uploads/1763836260559.png",
+      "buttons": [
+        {
+          "id": "1763836331684",
+          "text": "Více Info",
+          "url": "http://localhost:3000/music",
+          "icon": "arrow",
+          "style": {
+            "background": "bg-accent",
+            "text": "text-white",
+            "hoverBg": "hover:bg-accent/90",
+            "hoverText": "",
+            "border": ""
+          }
+        }
+      ]
+    },
+    "spotlight": {
+      "title": "ARTIST OF THE WEEK",
+      "artist": "Unknown Gasiabfkwbnfsdasdlitch",
+      "description": "Vizuální experimentátor z pražských pysosaddzemí."
+    }
+  },
+  "fashion": {
+    "title": "FASHION",
+    "description": "Street style, thrift guides a lokální značky."
+  },
+  "music": {
+    "title": "MUSIC",
+    "description": "Underground sound, playlists a reviews."
+  },
+  "art": {
+    "title": "ART",
+    "description": "Galerie ulice a digitální tvorba."
+  },
+  "articles": [
+    {
+      "id": "1763836301324",
+      "title": "Máme novej background!!!!",
+      "category": "Interviews",
+      "date": "2025-11-22",
+      "excerpt": "sdakjabfkbofdhhaf",
+      "image": "/uploads/1763836301223.png"
+    },
+    {
+      "id": "1763808929030",
+      "title": "SIgma pole",
+      "category": "Music",
+      "date": "2025-11-22",
+      "excerpt": "aasdadadasdasd",
+      "image": "/uploads/1763808929016.png"
+    },
+    {
+      "id": "1763808484120",
+      "title": "Test CMS Post",
+      "category": "Events",
+      "date": "2025-11-22",
+      "excerpt": "Testing the new CMS functionality",
+      "image": null
+    },
+    {
+      "id": "1",
+      "title": "Noc v betonu",
+      "category": "Events",
+      "date": "2023-10-27",
+      "excerpt": "Report z nelegální rave party pod mostem."
+    },
+    {
+      "id": "2",
+      "title": "Thrift Guide: Žižkov",
+      "category": "Fashion",
+      "date": "2023-10-25",
+      "excerpt": "Kde najít ty nejlepší kousky za pár korun."
+    }
+  ]
+}

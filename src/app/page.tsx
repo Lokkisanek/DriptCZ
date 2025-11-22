@@ -1,65 +1,118 @@
-import Image from "next/image";
+import fs from 'fs/promises';
+import path from 'path';
+import EditableContent from '@/components/EditableContent';
+import EditableArticleCard from '@/components/EditableArticleCard';
+import AdminToolbar from '@/components/AdminToolbar';
+import HeroBackgroundUploader from '@/components/HeroBackgroundUploader';
+import HeroButtons from '@/components/HeroButtons';
+import Link from 'next/link';
+import { ArrowRight } from 'lucide-react';
 
-export default function Home() {
+async function getData() {
+  const filePath = path.join(process.cwd(), 'data', 'content.json');
+  const fileContent = await fs.readFile(filePath, 'utf-8');
+  return JSON.parse(fileContent);
+}
+
+export default async function Home() {
+  const data = await getData();
+  const { home } = data;
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div className="flex flex-col min-h-screen">
+      {/* Hero Section */}
+      <section className="relative h-[80vh] flex items-center justify-center overflow-hidden border-b border-muted">
+        {/* Background Image or Default */}
+        {home.hero.background ? (
+          <div
+            className="absolute inset-0 bg-cover bg-center"
+            style={{ backgroundImage: `url(${home.hero.background})` }}
+          />
+        ) : (
+          <div className="absolute inset-0 bg-[url('/placeholder-noise.png')] opacity-10 pointer-events-none"></div>
+        )}
+
+        {/* Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-background pointer-events-none"></div>
+
+        {/* Background Upload Control */}
+        <HeroBackgroundUploader currentBackground={home.hero.background} />
+
+        <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
+          <EditableContent
+            path="home.hero.title"
+            initialContent={home.hero.title}
+            tag="h1"
+            className="text-6xl md:text-9xl font-black tracking-tighter mb-4 glitch-effect"
+          />
+          <EditableContent
+            path="home.hero.subtitle"
+            initialContent={home.hero.subtitle}
+            tag="h2"
+            className="text-xl md:text-2xl font-bold uppercase tracking-[0.5em] text-accent mb-8"
+          />
+          <EditableContent
+            path="home.hero.description"
+            initialContent={home.hero.description}
+            tag="p"
+            className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-12"
+          />
+
+          <HeroButtons buttons={home.hero.buttons || []} />
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      </section>
+
+      {/* Spotlight Section */}
+      <section className="py-24 px-4 border-b border-muted">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div className="aspect-square bg-muted relative overflow-hidden group">
+              {/* Placeholder for artist image */}
+              <div className="absolute inset-0 flex items-center justify-center text-muted-foreground/20 text-9xl font-black uppercase rotate-12 group-hover:scale-110 transition-transform duration-700">
+                Spotlight
+              </div>
+              <div className="absolute inset-0 bg-accent/10 mix-blend-overlay"></div>
+            </div>
+            <div>
+              <EditableContent
+                path="home.spotlight.title"
+                initialContent={home.spotlight.title}
+                tag="h3"
+                className="text-sm font-bold uppercase tracking-widest text-accent mb-2"
+              />
+              <EditableContent
+                path="home.spotlight.artist"
+                initialContent={home.spotlight.artist}
+                tag="h2"
+                className="text-4xl md:text-6xl font-black tracking-tighter mb-6"
+              />
+              <EditableContent
+                path="home.spotlight.description"
+                initialContent={home.spotlight.description}
+                tag="p"
+                className="text-lg text-muted-foreground mb-8"
+              />
+              <Link href="/music" className="inline-flex items-center gap-2 text-white border-b border-accent pb-1 hover:text-accent transition-colors uppercase tracking-wider font-bold text-sm">
+                Read Full Interview <ArrowRight size={14} />
+              </Link>
+            </div>
+          </div>
         </div>
-      </main>
+      </section>
+
+      {/* Latest Content Preview */}
+      <section className="py-24 px-4">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-3xl md:text-5xl font-black tracking-tighter mb-12">LATEST DROPS</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {data.articles.map((article: any) => (
+              <EditableArticleCard key={article.id} article={article} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <AdminToolbar />
     </div>
   );
 }
